@@ -3,18 +3,35 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Lauras Website</title>
+<title>Lauras Website — Scaled to Fit (no scroll)</title>
 
 <!-- Google Fonts --> 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Trirong&display=swap" rel="stylesheet">
 
 <style>
+  /* Prevent scrollbars on the page */
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* important: no scrolling */
+  }
+
+  /* This wrapper will be scaled via JS to always fit inside the viewport */
+  #scale-wrap {
+    transform-origin: 0 0; /* top-left origin makes scaling predictable */
+    will-change: transform;
+    /* keep natural layout size so we can measure it before scaling */
+    width: auto;
+    height: auto;
+  }
+
+  /* --- original styles (kept, mostly unchanged) --- */
   body, h1, h2, h3, h4, h5, h6, p, a, .box, .dropdown, .dropdown-content {
     text-shadow: 1px 1px 0 #fff, -1px -1px 0 #000;
   }
 
   body {
-    margin: 0;
     background-image: url(https://www.kwernerdesign.com/blog/wp-content2/uploads/2022/09/092122-embossingfolder-yt.jpg);
     background-size: cover;
     background-position: center;
@@ -127,7 +144,7 @@
   .content-wrapper {
     display: flex;
     margin-top: 10px; /* below topbar */
-    height: calc(100vh - 100px); /* full height minus topbar */
+    height: calc(100vh - 100px); /* full height minus topbar (this is measured before scaling) */
   }
 
   /* Sidebar */
@@ -272,67 +289,119 @@
 </head>
 <body>
 
-  <div class="topbar">
-    <h1>Lowar.INK</h1>
-    <div class="dropdown-container">
-      <div class="dropdown" tabindex="0">
-        Socials
-        <div class="dropdown-content" role="menu" aria-label="Socials">
-          <a href="https://instagram.com" target="_blank" role="menuitem">Instagram</a>
-          <a href="https://youtube.com" target="_blank" role="menuitem">YouTube</a>
+  <!-- WRAPPER: everything inside here will be measured then scaled down (never up) so it always fits -->
+  <div id="scale-wrap">
+
+    <div class="topbar">
+      <h1>Lowar.INK</h1>
+      <div class="dropdown-container">
+        <div class="dropdown" tabindex="0">
+          Socials
+          <div class="dropdown-content" role="menu" aria-label="Socials">
+            <a href="https://instagram.com" target="_blank" role="menuitem">Instagram</a>
+            <a href="https://youtube.com" target="_blank" role="menuitem">YouTube</a>
+          </div>
+        </div>
+        <div class="dropdown" tabindex="0">
+          Contact Me
+          <div class="dropdown-content" role="menu" aria-label="Contact">
+            <a href="mailto:your@email.com" role="menuitem">Email</a>
+            <a href="#" role="menuitem">Other</a>
+          </div>
         </div>
       </div>
-      <div class="dropdown" tabindex="0">
-        Contact Me
-        <div class="dropdown-content" role="menu" aria-label="Contact">
-          <a href="mailto:your@email.com" role="menuitem">Email</a>
-          <a href="#" role="menuitem">Other</a>
+    </div>
+
+    <div class="content-wrapper">
+      <!-- Sidebar with sections -->
+      <div class="link-boxes">
+        <!-- Shop Section -->
+        <div class="sidebar-section">
+          <div class="section-title">Shop</div>
+          <a href="#" class="box">Products</a>
+          <a href="#" class="box">Merch</a>
+        </div>
+
+        <!-- Art Section -->
+        <div class="sidebar-section">
+          <div class="section-title">Art</div>
+          <a href="#" class="box">Gallery</a>
+          <a href="#" class="box">Commissions</a>
+        </div>
+
+        <!-- Videos Section -->
+        <div class="sidebar-section">
+          <div class="section-title">Videos</div>
+          <a href="#" class="box">Animations</a>
+          <a href="#" class="box">Tutorials</a>
+        </div>
+      </div>
+
+      <!-- Main content + buttons under main box -->
+      <div class="main-container">
+        <div class="main-box">
+          This box fills the entire remaining space
+        </div>
+
+        <div class="under-main-buttons">
+          <a href="#" class="box">Video animations</a>
+          <a href="#" class="box">Fan art</a>
+          <a href="#" class="box">About me</a>
         </div>
       </div>
     </div>
+
+    <!-- Tiny corner image -->
+    <img class="corner-image" src="https://github.com/MaeNoSurname/ConsoleImages/blob/main/image.png?raw=true" alt="Decorative Image">
+
   </div>
 
-  <div class="content-wrapper">
-    <!-- Sidebar with sections -->
-    <div class="link-boxes">
-      <!-- Shop Section -->
-      <div class="sidebar-section">
-        <div class="section-title">Shop</div>
-        <a href="#" class="box">Products</a>
-        <a href="#" class="box">Merch</a>
-      </div>
+  <!-- Script: measure the natural size of #scale-wrap then scale it down so it fits inside the viewport. Never allows scrolling. -->
+  <script>
+    (function(){
+      const wrapper = document.getElementById('scale-wrap');
 
-      <!-- Art Section -->
-      <div class="sidebar-section">
-        <div class="section-title">Art</div>
-        <a href="#" class="box">Gallery</a>
-        <a href="#" class="box">Commissions</a>
-      </div>
+      function updateScale(){
+        // allow measurements at natural scale
+        wrapper.style.transform = 'scale(1)';
+        wrapper.style.width = 'auto';
+        wrapper.style.height = 'auto';
 
-      <!-- Videos Section -->
-      <div class="sidebar-section">
-        <div class="section-title">Videos</div>
-        <a href="#" class="box">Animations</a>
-        <a href="#" class="box">Tutorials</a>
-      </div>
-    </div>
+        // measure natural size
+        const naturalW = Math.ceil(wrapper.scrollWidth);
+        const naturalH = Math.ceil(wrapper.scrollHeight);
 
-    <!-- Main content + buttons under main box -->
-    <div class="main-container">
-      <div class="main-box">
-        This box fills the entire remaining space
-      </div>
+        // compute scale to fit viewport (never scale up beyond 1)
+        const sx = window.innerWidth / naturalW;
+        const sy = window.innerHeight / naturalH;
+        const scale = Math.min(sx, sy, 1);
 
-      <div class="under-main-buttons">
-        <a href="#" class="box">Video animations</a>
-        <a href="#" class="box">Fan art</a>
-        <a href="#" class="box">About me</a>
-      </div>
-    </div>
-  </div>
+        // apply scale
+        wrapper.style.transformOrigin = '0 0';
+        wrapper.style.transform = 'scale(' + scale + ')';
 
-  <!-- Tiny corner image -->
-  <img class="corner-image" src="https://github.com/MaeNoSurname/ConsoleImages/blob/main/image.png?raw=true" alt="Decorative Image">
+        // ensure no scrollbars on document
+        document.documentElement.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden';
+      }
+
+      // update after fonts & images load to get accurate measurements
+      function readyUpdate(){
+        updateScale();
+        // small debounce for resize
+        let t;
+        window.addEventListener('resize', ()=>{ clearTimeout(t); t = setTimeout(updateScale, 80); });
+        window.addEventListener('orientationchange', updateScale);
+      }
+
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(readyUpdate).catch(readyUpdate);
+      } else {
+        window.addEventListener('load', readyUpdate);
+        setTimeout(readyUpdate, 300);
+      }
+    })();
+  </script>
 
 </body>
 </html>
