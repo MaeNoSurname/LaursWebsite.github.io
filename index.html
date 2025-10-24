@@ -3,62 +3,139 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Lowar.INK — Pixel Themed</title>
+<title>Lowar.INK — Pixel Themed (single-seed color)</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
 <style>
-:root {
+  /* ----- Night Mode Variables (darkened more aggressively) ----- */
+:root.nightmode {
+  --h: 269;
+  --s: 100%;
+  --l: 100%;
 
-  --primary: 216, 189, 245;
-  --accent: 140, 120, 220;
-  --text: #3a1f6e;
-  --sketch-color: #6b3fa0;
-  --bg-light: #f7f3fc;
-  --bg-panel: #fff9ff;
-  --btn-hover: #d9c2ff;
-  --spine-light: #e0d4f8;
-  --spine-dark: #b7a6e2;
+  --primary: hsl(var(--h) var(--s) var(--l));
+  --accent: hsl(calc(var(--h) - 30) calc(var(--s) - 5%) calc(var(--l) - 18%));
+  --text: hsl(var(--h) calc(var(--s) - 40%) calc(var(--l) - 60%));
+  --sketch-color: hsl(var(--h) calc(var(--s) - 20%) calc(var(--l) - 30%));
+  --bg-light: hsl(var(--h) calc(var(--s) + 5%) calc(var(--l) + 3%));
+  --bg-panel: hsl(var(--h) calc(var(--s) + 4%) calc(var(--l) + 1%));
+  --btn-hover: hsl(var(--h) calc(var(--s) - 10%) calc(var(--l) - 8%));
+  --spine-light: hsl(var(--h) calc(var(--s) + 2%) calc(var(--l) - 2%));
+  --spine-dark: hsl(var(--h) calc(var(--s) + 5%) calc(var(--l) - 10%));
+
+  --primary-opaque: hsl(var(--h) var(--s) var(--l) / 0.9);
+  --accent-40: hsl(calc(var(--h) - 30) calc(var(--s) - 5%) calc(var(--l) - 18%) / 0.4);
+  filter: invert(90%) brightness(0.6) hue-rotate(180deg)
+}
+/* ----- Default seed + derived palette ----- */
+:root {
+  --h: 269;
+  --s: 100%;
+  --l: 100%;
+
+  --primary: hsl(var(--h) var(--s) var(--l));
+  --accent: hsl(calc(var(--h) - 30) calc(var(--s) - 5%) calc(var(--l) - 18%));
+  --text: hsl(var(--h) calc(var(--s) - 40%) calc(var(--l) - 60%));
+  --sketch-color: hsl(var(--h) calc(var(--s) - 20%) calc(var(--l) - 30%));
+  --bg-light: hsl(var(--h) calc(var(--s) + 5%) calc(var(--l) + 3%));
+  --bg-panel: hsl(var(--h) calc(var(--s) + 4%) calc(var(--l) + 1%));
+  --btn-hover: hsl(var(--h) calc(var(--s) - 10%) calc(var(--l) - 8%));
+  --spine-light: hsl(var(--h) calc(var(--s) + 2%) calc(var(--l) - 2%));
+  --spine-dark: hsl(var(--h) calc(var(--s) + 5%) calc(var(--l) - 10%));
+
+  --primary-opaque: hsl(var(--h) var(--s) var(--l) / 0.9);
+  --accent-40: hsl(calc(var(--h) - 30) calc(var(--s) - 5%) calc(var(--l) - 18%) / 0.4);
 }
 
+/* quick global transition helper (keeps retro aesthetic but smooth) */
+:root, body, .topbar, .link-boxes, .main-box, .box, .dropdown-btn, #nightModeToggle, .color-picker input {
+  transition: background 360ms ease, color 360ms ease, border-color 360ms ease, box-shadow 360ms ease;
+}
+
+* { box-sizing: border-box; }
+
 body {
-cursor: url('https://www.rw-designer.com/cursor-view/139362.png') 10 10, auto;
+  cursor: url('https://www.rw-designer.com/cursor-view/139362.png') 10 10, auto;
   font-family: 'Press Start 2P', monospace;
   margin: 0;
   color: var(--text);
-  background: var(--bg-light) url('https://www.transparenttextures.com/patterns/pw-maze-black.png') repeat;
   image-rendering: pixelated;
   overflow-x: hidden;
+  background: var(--bg-light);
 }
 
-h1 {
-  color: rgb(var(--accent));
-  text-decoration: underline dotted rgba(var(--primary), 1);
-  text-shadow: 2px 2px 0 rgba(var(--accent), 0.8);
-  margin: 0;
-}
-
+/* Topbar */
 .topbar {
-  background: linear-gradient(90deg, #f4e8ff, #e8e0ff);
+  position: relative;
+  background: linear-gradient(90deg,
+    hsl(var(--h) calc(var(--s) + 6%) calc(var(--l) + 2%) / 0.9),
+    hsl(calc(var(--h) - 12) calc(var(--s) + 4%) calc(var(--l) + 0%) / 0.95)
+  );
   height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0 15px;
   border-bottom: 2px solid var(--sketch-color);
+  overflow: hidden;
 }
 
+.topbar h1 {
+  margin: 0;
+  line-height: 1;
+  color: var(--accent);
+  text-decoration: dotted hsl(var(--h) var(--s) var(--l) / 1);
+  text-shadow: 2px 2px 0 hsl(calc(var(--h) - 30) calc(var(--s) - 5%) calc(var(--l) - 18%) / 0.8);
+  background: hsl(var(--h) calc(var(--s) - 5%) calc(var(--l) + 2%) / 0.2);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border: 1px solid hsl(var(--h) calc(var(--s) - 30%) calc(var(--l) - 60%));
+}
+
+/* Wave header */
+.wave-header {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.wave-header h1 { position: relative; z-index: 2; margin-bottom: 0; padding-bottom: 5px; }
+.wave-header .wave {
+  position: absolute; bottom: 0; left: 0; width: 200%; height: 100%;
+  background: repeating-linear-gradient(
+    -45deg,
+    hsl(calc(var(--h) - 30) calc(var(--s) - 5%) calc(var(--l) - 18%) / 0.4),
+    hsl(calc(var(--h) - 30) calc(var(--s) - 5%) calc(var(--l) - 18%) / 0.4) 4px,
+    hsl(var(--h) var(--s) var(--l) / 0.2) 4px,
+    hsl(var(--h) var(--s) var(--l) / 0.2) 8px
+  );
+  animation: waveMove 6s linear infinite;
+  z-index: 1;
+}
+
+@keyframes waveMove { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* Layout */
 .content-wrapper {
   display: flex;
   gap: 10px;
   padding: 10px;
   box-sizing: border-box;
-  min-height: calc(100vh - 50px);
+  min-height: calc(100vh - 80px);
+  position: relative;
 }
 
 .link-boxes {
   flex: 0 0 180px;
-  background: linear-gradient(to bottom, #fff5ff, #f2e8ff);
+  background: linear-gradient(to bottom,
+    hsl(var(--h) calc(var(--s) + 6%) calc(var(--l) + 2%)),
+    hsl(calc(var(--h) - 6) calc(var(--s) + 4%) calc(var(--l) + 0%))
+  );
   border: 2px solid var(--sketch-color);
   padding: 10px;
   display: flex;
@@ -68,7 +145,10 @@ h1 {
 
 .dropdown-btn {
   font-family: 'Press Start 2P', monospace;
-  background: linear-gradient(to right, #fdf0ff, #f2e8ff);
+  background: linear-gradient(to right,
+    hsl(var(--h) calc(var(--s) - 4%) calc(var(--l) + 4%)),
+    hsl(calc(var(--h) - 6) calc(var(--s) - 6%) calc(var(--l) + 0%))
+  );
   color: var(--sketch-color);
   border: 2px solid var(--sketch-color);
   font-size: 12px;
@@ -80,58 +160,31 @@ h1 {
   transition: background 0.3s;
 }
 
-.dropdown-btn:hover {
-  background: var(--btn-hover);
-}
+.dropdown-btn:hover { background: var(--btn-hover); }
 
-.dropdown-content {
-  display: none;
-  flex-direction: column;
-  margin-top: 2px;
-  padding-left: 5px;
-}
+.dropdown-content { display: none; flex-direction: column; margin-top: 2px; padding-left: 5px; }
+.dropdown-content a { color: var(--sketch-color); text-decoration: none; padding: 4px 3px; cursor: pointer; }
 
-.dropdown-content a {
-  color: var(--sketch-color);
-  text-decoration: none;
-  padding: 4px 3px;
-  cursor: pointer;
-}
+.sidebar-dropdown.active .dropdown-content { display: flex; }
 
-.sidebar-dropdown.active .dropdown-content {
-  display: flex;
-}
-
-.main-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+.main-container { flex: 1; display: flex; flex-direction: column; gap: 10px; position: relative; }
 
 .main-box {
   flex: 1;
-  background: linear-gradient(135deg, #fffaff, #f2e8ff);
+  background: linear-gradient(135deg,
+    hsl(var(--h) calc(var(--s) + 4%) calc(var(--l) + 2%)),
+    hsl(calc(var(--h) - 6) calc(var(--s) + 2%) calc(var(--l) + 0%))
+  );
   border: 2px solid var(--sketch-color);
   box-shadow: 6px 6px 0 rgba(0,0,0,1);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 14px;
-  color: var(--sketch-color);
-  padding: 15px;
-  position: relative;
-  image-rendering: pixelated;
-  text-align: center;
+  display: flex; justify-content: center; align-items: center;
+  font-size: 14px; color: var(--sketch-color);
+  padding: 15px; position: relative; image-rendering: pixelated; text-align: center;
 }
 
 .main-box::before {
   content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 10px;
+  position: absolute; left: 0; top: 0; bottom: 0; width: 10px;
   background: repeating-linear-gradient(
     to bottom,
     var(--spine-light),
@@ -150,7 +203,10 @@ h1 {
 }
 
 .box {
-  background: linear-gradient(to bottom, #fff0ff, #f2e8ff);
+  background: linear-gradient(to bottom,
+    hsl(var(--h) calc(var(--s) - 6%) calc(var(--l) + 3%)),
+    hsl(calc(var(--h) - 6) calc(var(--s) - 8%) calc(var(--l) + 0%))
+  );
   border: 2px solid var(--sketch-color);
   padding: 8px 12px;
   text-decoration: none;
@@ -160,36 +216,83 @@ h1 {
   transition: background 0.3s;
 }
 
+.dropdown-btn, .box, .dropdown-content a { cursor: url('https://www.rw-designer.com/cursor-view/139377.png') 10 10, pointer; }
 
-.dropdown-btn, .box, .dropdown-content a {
-  cursor: url('https://www.rw-designer.com/cursor-view/139377.png') 10 10, pointer;
-}
-
-.box:hover {
-  background: var(--btn-hover);
-}
-
-.box.active {
-  outline: 3px solid rgba(var(--primary), 0.12);
-  box-shadow: inset 0 0 0 2px rgba(var(--accent), 0.06);
-}
+.box:hover { background: var(--btn-hover); }
+.box.active { outline: 3px solid hsl(var(--h) var(--s) var(--l) / 0.12); box-shadow: inset 0 0 0 2px hsl(calc(var(--h) - 30) calc(var(--s) - 5%) calc(var(--l) - 18%) / 0.06); }
 
 @media (max-width: 700px) {
   .content-wrapper { flex-direction: column; gap: 5px; }
-  .link-boxes {
-    flex-direction: row;
-    justify-content: space-around;
-    width: 100%;
-    border-radius: 0;
-  }
+  .link-boxes { flex-direction: row; justify-content: space-around; width: 100%; border-radius: 0; }
 }
+
+/* Color Picker */
+.color-picker {
+  position: fixed;        /* changed from absolute */
+  top: 15px;              /* align vertically with night mode button */
+  right: 180px;           /* place it to the left of night mode button */
+  z-index: 1001;          /* higher than topbar but below night mode */
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--sketch-color);
+  pointer-events: auto;
+}
+
+.color-picker input[type="color"] { width: 28px; height: 22px; padding: 0; border: 2px solid var(--sketch-color); background: var(--bg-panel); cursor: pointer; image-rendering: pixelated; }
+
+/* ----- Night Mode Button (fixed, styled to match aesthetic) ----- */
+#nightModeToggle {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  background: linear-gradient(to bottom, var(--bg-panel), var(--bg-light));
+  border: 2px solid var(--sketch-color);
+  color: var(--sketch-color);
+  padding: 8px 12px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  cursor: pointer;
+  text-align: center;
+  image-rendering: pixelated;
+  transition: transform 160ms ease, box-shadow 260ms ease, background 360ms ease;
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.9);
+  border-radius: 4px;
+  backdrop-filter: blur(2px);
+}
+#nightModeToggle:hover { transform: translateY(-2px); background: var(--btn-hover); }
+
+/* slight visual cue when night is active: add subtle glow using variable */
+:root.nightmode #nightModeToggle {
+  box-shadow: 0 4px 14px hsl(calc(var(--h) - 30) calc(var(--s) - 10%) calc(var(--l) + 40%) / 0.18);
+  color: var(--text);
+  border-color: hsl(var(--h) calc(var(--s) - 10%) calc(var(--l) + 60%));
+}
+
+/* small accessibility tweak for color input label */
+.color-label { font-size: 10px; opacity: 0.95; }
 </style>
 </head>
 
 <body>
+  <!-- Header with wave below text -->
   <div class="topbar">
-    <h1>LowAr.INK</h1>
+    <div class="wave-header">
+      <h1>LowAr.INK</h1>
+      <div class="wave"></div>
+    </div>
+
+    <!-- Color picker (seed color) -->
+    <div class="color-picker" title="Pick base color for the theme">
+      <label class="color-label" for="seedColor">Theme</label>
+      <input id="seedColor" type="color" value="#f7f0ff" aria-label="Theme color picker">
+    </div>
   </div>
+
+  <!-- Night Mode Button (fixed in corner) -->
+  <button id="nightModeToggle" aria-pressed="false" title="Toggle night mode">🌙 Night Mode</button>
 
   <div class="content-wrapper">
     <!-- Sidebar -->
@@ -235,50 +338,103 @@ h1 {
   </div>
 
 <script>
+  /* ---------- DOM helpers & content switching ---------- */
   const mainBox = document.getElementById('mainBox');
+  function setMainContent(html) { mainBox.innerHTML = html; }
 
-  function setMainContent(html) {
-    mainBox.innerHTML = html;
-  }
-
-  // Dropdown button toggles only open/close
   document.querySelectorAll('.dropdown-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      btn.parentElement.classList.toggle('active');
-    });
+    btn.addEventListener('click', () => btn.parentElement.classList.toggle('active'));
   });
 
-  // Dropdown links update main content
   document.querySelectorAll('.dropdown-content a').forEach(link => {
     link.addEventListener('click', e => {
       e.preventDefault();
-
       const content = link.dataset.content || `<h2>${link.textContent}</h2><p>Content for ${link.textContent}.</p>`;
       setMainContent(content);
-
-      // Close dropdown
       const parent = link.closest('.sidebar-dropdown');
       if (parent) parent.classList.remove('active');
-
-      // Remove active from under-main buttons
       document.querySelectorAll('.box').forEach(b => b.classList.remove('active'));
     });
   });
 
-  // Under-main buttons functionality
   document.querySelectorAll('.box').forEach(box => {
     box.addEventListener('click', e => {
       e.preventDefault();
       const content = box.dataset.content || `<h2>${box.textContent}</h2><p>Content for ${box.textContent}.</p>`;
       setMainContent(content);
-
-      // Mark active
       document.querySelectorAll('.box').forEach(b => b.classList.remove('active'));
       box.classList.add('active');
-
-      // Close all dropdowns
       document.querySelectorAll('.sidebar-dropdown').forEach(sd => sd.classList.remove('active'));
     });
+  });
+
+  /* ---------- Color picker: hex -> HSL and set CSS variables ---------- */
+  function hexToHsl(hex) {
+    hex = hex.replace('#','');
+    if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+    const r = parseInt(hex.substring(0,2), 16)/255;
+    const g = parseInt(hex.substring(2,4), 16)/255;
+    const b = parseInt(hex.substring(4,6), 16)/255;
+    const max = Math.max(r,g,b), min = Math.min(r,g,b);
+    let h = 0, s = 0;
+    const l = (max + min) / 2;
+    if (max !== min) {
+      const d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      switch(max){
+        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+        case g: h = (b - r) / d + 2; break;
+        case b: h = (r - g) / d + 4; break;
+      }
+      h = h * 60;
+    } else {
+      h = 0; s = 0;
+    }
+    return { h: Math.round(h), s: Math.round(s * 100), l: Math.round(l * 100) };
+  }
+
+  function setSeedFromHex(hex) {
+    const {h, s, l} = hexToHsl(hex);
+    const root = document.documentElement.style;
+    root.setProperty('--h', String(h));
+    root.setProperty('--s', String(s) + '%');
+    root.setProperty('--l', String(l) + '%');
+  }
+
+  const seedInput = document.getElementById('seedColor');
+  setSeedFromHex(seedInput.value);
+  seedInput.addEventListener('input', (e) => setSeedFromHex(e.target.value));
+
+  // keyboard shortcut to focus the color picker ('t')
+  document.addEventListener('keydown', (e) => { if (e.key.toLowerCase() === 't') seedInput.focus(); });
+
+  /* ---------- Night Mode Toggle (persisted) ---------- */
+  const nightBtn = document.getElementById('nightModeToggle');
+  const htmlEl = document.documentElement;
+
+  // helper to update button text/aria
+  function updateNightButtonText(isNight) {
+    nightBtn.textContent = isNight ? '☀️ Day Mode' : '🌙 Night Mode';
+    nightBtn.setAttribute('aria-pressed', String(!!isNight));
+  }
+
+  // initialize from localStorage
+  const saved = localStorage.getItem('nightmode');
+  if (saved === 'true') {
+    htmlEl.classList.add('nightmode');
+    updateNightButtonText(true);
+  } else {
+    updateNightButtonText(false);
+  }
+
+  nightBtn.addEventListener('click', () => {
+    htmlEl.classList.toggle('nightmode');
+    const isNight = htmlEl.classList.contains('nightmode');
+    localStorage.setItem('nightmode', isNight);
+    updateNightButtonText(isNight);
+
+    // small accessible focus/announce: briefly focus the button so screen readers detect change
+    nightBtn.focus({ preventScroll: true });
   });
 </script>
 </body>
