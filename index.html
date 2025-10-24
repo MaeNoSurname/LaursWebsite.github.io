@@ -9,44 +9,40 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Trirong&display=swap" rel="stylesheet">
 
 <style>
-  /* Prevent scrolling and use full viewport */
-  html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden; /* no scrolling */
-    font-family: 'Trirong', cursive;
-    background-image: url(https://www.kwernerdesign.com/blog/wp-content2/uploads/2022/09/092122-embossingfolder-yt.jpg);
-    background-size: cover;
-    background-position: center;
-    color: #ff4d4d;
-  }
-
   body, h1, h2, h3, h4, h5, h6, p, a, .box, .dropdown, .dropdown-content {
     text-shadow: 1px 1px 0 #fff, -1px -1px 0 #000;
   }
 
+  body {
+    margin: 0;
+    background-image: url(https://www.kwernerdesign.com/blog/wp-content2/uploads/2022/09/092122-embossingfolder-yt.jpg);
+    background-size: cover;
+    background-position: center;
+    color: #ff4d4d;
+    font-family: 'Trirong', cursive;
+  }
+
   h1 {
     font-family: 'Trirong', cursive;
-    font-size: 2rem;
+    font-size: 28px;
     margin: 0;
     text-decoration-line: underline;
   }
 
-  /* Topbar */
   .topbar {
-    flex: 0 0 70px;
+    width: 100%;
+    background: radial-gradient(
+      rgba(181, 166, 222, 0.8),
+      rgba(121, 80, 235, 0.8),  
+      rgba(75, 50, 143, 0.8)    
+    );
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    height: 70px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
-    background: radial-gradient(
-      rgba(181, 166, 222, 0.8),
-      rgba(121, 80, 235, 0.8),
-      rgba(75, 50, 143, 0.8)
-    );
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
     box-shadow: 5px 5px rgba(27, 11, 71,.4);
     color: black;
     font-weight: 600;
@@ -104,13 +100,34 @@
     color: #ff8a8a;
   }
 
-  /* Main layout wrapper */
+  .corner-image {
+    position: relative;
+    width: 100%;
+    height: 10px;
+    object-fit: contain;
+    object-position: center;
+    opacity: .4;
+    pointer-events: none;
+    z-index: 0;
+    filter: drop-shadow(0 8px 18px rgba(0,0,0,0.25));
+  }
+
+  @media (max-width: 420px) {
+    .topbar {
+      height: 60px;
+      font-size: 15px;
+    }
+    .corner-image {
+      width: 50px;
+      height: 50px;
+    }
+  }
+
+  /* Layout container for sidebar + main content */
   .content-wrapper {
     display: flex;
-    flex: 1 1 auto; /* fill remaining height */
-    margin: 0;
-    padding: 10px 20px;
-    gap: 20px;
+    margin-top: 10px; /* below topbar */
+    height: calc(100vh - 100px); /* full height minus topbar */
   }
 
   /* Sidebar */
@@ -118,10 +135,11 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    flex: 0 0 200px; /* fixed width */
-    overflow: hidden;
+    width: 200px;
+    padding-left: 20px;
   }
 
+  /* Sidebar Sections */
   .sidebar-section {
     display: flex;
     flex-direction: column;
@@ -141,17 +159,18 @@
     width: calc(100% - 10px);
   }
 
-  /* Main container */
+  /* Main content container (main box + buttons under it) */
   .main-container {
-    flex: 1 1 auto;
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
   }
 
-  /* Main box fills remaining space */
+  /* Main box */
   .main-box {
-    flex: 1 1 auto;
+    flex: 1; 
     background: radial-gradient(
       rgba(181, 166, 222, 0.8),
       rgba(121, 80, 235, 0.8),
@@ -164,7 +183,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.5rem;
+    font-family: 'Trirong', cursive;
+    font-size: 24px;
     color: black;
     text-align: center;
     padding: 20px;
@@ -173,19 +193,19 @@
   /* Buttons under main box */
   .under-main-buttons {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    gap: 20px;
+    margin-top: 20px;
     justify-content: center;
-    flex: 0 0 auto;
+    flex-wrap: wrap;
   }
 
   .under-main-buttons .box {
-    flex: 1 1 calc(33% - 10px);
+    flex: 1;
     max-width: 150px;
-    height: 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  }
+
+  /* Box styling */
+  .box {
     background: radial-gradient(
       rgba(181, 166, 222, 0.8),
       rgba(121, 80, 235, 0.8),
@@ -199,34 +219,26 @@
     text-decoration: none;
     font-weight: 600;
     text-align: center;
-    font-family: 'Trirong', cursive;
     transition: transform 0.2s, box-shadow 0.2s;
+    flex: none;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Trirong', cursive;
   }
 
-  .under-main-buttons .box:hover {
+  .box:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0,0,0,0.2);
   }
 
-  /* Corner image */
-  .corner-image {
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
-    width: 50px;
-    height: auto;
-    opacity: .4;
-    pointer-events: none;
-    z-index: 0;
-    filter: drop-shadow(0 8px 18px rgba(0,0,0,0.25));
-  }
-
-  /* Responsive tweaks */
   @media (max-width: 768px) {
     .link-boxes {
-      flex: 0 0 150px;
+      width: 150px;
     }
-    .under-main-buttons .box {
+    .box {
       height: 50px;
     }
   }
@@ -234,24 +246,26 @@
   @media (max-width: 480px) {
     .content-wrapper {
       flex-direction: column;
-      margin: 0;
-      padding: 10px;
+      margin-top: 0;
     }
     .link-boxes {
       width: 100%;
       flex-direction: row;
       flex-wrap: wrap;
       justify-content: center;
-      padding: 0;
-      margin: 10px 0;
+      padding-left: 0;
+      margin: 20px 0;
       gap: 10px;
     }
     .main-container {
-      margin: 0;
+      margin: 0 20px;
     }
-    .under-main-buttons .box {
-      flex: 1 1 calc(50% - 10px);
-      max-width: none;
+    .main-box {
+      height: 300px; /* fixed height for mobile */
+    }
+    .under-main-buttons {
+      margin-top: 10px;
+      gap: 10px;
     }
   }
 </style>
@@ -279,20 +293,23 @@
   </div>
 
   <div class="content-wrapper">
-    <!-- Sidebar -->
+    <!-- Sidebar with sections -->
     <div class="link-boxes">
+      <!-- Shop Section -->
       <div class="sidebar-section">
         <div class="section-title">Shop</div>
         <a href="#" class="box">Products</a>
         <a href="#" class="box">Merch</a>
       </div>
 
+      <!-- Art Section -->
       <div class="sidebar-section">
         <div class="section-title">Art</div>
         <a href="#" class="box">Gallery</a>
         <a href="#" class="box">Commissions</a>
       </div>
 
+      <!-- Videos Section -->
       <div class="sidebar-section">
         <div class="section-title">Videos</div>
         <a href="#" class="box">Animations</a>
@@ -300,7 +317,7 @@
       </div>
     </div>
 
-    <!-- Main content -->
+    <!-- Main content + buttons under main box -->
     <div class="main-container">
       <div class="main-box">
         This box fills the entire remaining space
@@ -314,7 +331,7 @@
     </div>
   </div>
 
-  <!-- Corner image -->
+  <!-- Tiny corner image -->
   <img class="corner-image" src="https://github.com/MaeNoSurname/ConsoleImages/blob/main/image.png?raw=true" alt="Decorative Image">
 
 </body>
