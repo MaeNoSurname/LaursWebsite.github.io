@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Lauras Website</title>
+
+<!-- Google Fonts --> 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Trirong&display=swap" rel="stylesheet">
+
+<style>
+  body, h1, h2, h3, h4, h5, h6, p, a, .box, .dropdown, .dropdown-content {
+    text-shadow: 1px 1px 0 #fff, -1px -1px 0 #000;
+  }
+
+  body {
+    margin: 0;
+    background-image: url(https://www.kwernerdesign.com/blog/wp-content2/uploads/2022/09/092122-embossingfolder-yt.jpg);
+    background-size: cover;
+    background-position: center;
+    color: #ff4d4d;
+    font-family: 'Trirong', cursive;
+  }
+
+  h1 {
+    font-family: 'Trirong', cursive;
+    font-size: 28px;
+    margin: 0;
+    text-decoration-line: underline;
+  }
+
+  .topbar {
+    width: 100%;
+    background: radial-gradient(
+      rgba(181, 166, 222, 0.8),
+      rgba(121, 80, 235, 0.8),  
+      rgba(75, 50, 143, 0.8)    
+    );
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-shadow: 5px 5px rgba(27, 11, 71,.4);
+    color: black;
+    font-weight: 600;
+    position: relative;
+    z-index: 10;
+  }
+
+  .dropdown-container {
+    display: flex;
+    gap: 20px;
+  }
+
+  .dropdown {
+    position: relative;
+    cursor: pointer;
+    padding-bottom: 8px;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #fff;
+    color: #333;
+    min-width: 160px;
+    padding: 10px 0;
+    border-radius: 8px;
+    box-shadow: 0 10px 20px rgba(0,0,0,.15);
+    font-weight: 500;
+    z-index: 20;
+    font-family: 'Trirong', cursive;
+  }
+
+  .dropdown:hover .dropdown-content,
+  .dropdown:focus-within .dropdown-content {
+    display: block;
+  }
+
+  .dropdown-content a {
+    display: block;
+    padding: 10px 14px;
+    color: #333;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .dropdown-content a:hover {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+  }
+
+  p {
+    margin: 20px;
+    color: #ff8a8a;
+  }
+
+  .corner-image {
+    position: relative;
+    width: 100%;
+    height: 10px;
+    object-fit: contain;
+    object-position: center;
+    opacity: .4;
+    pointer-events: none;
+    z-index: 0;
+    filter: drop-shadow(0 8px 18px rgba(0,0,0,0.25));
+  }
+
+  @media (max-width: 420px) {
+    .topbar {
+      height: 60px;
+      font-size: 15px;
+    }
+    .corner-image {
+      width: 50px;
+      height: 50px;
+    }
+  }
+
+  /* Layout container for sidebar + main content */
+  .content-wrapper {
+    display: flex;
+    margin-top: 10px; /* below topbar */
+    height: calc(100vh - 100px); /* full height minus topbar */
+  }
+
+  /* Sidebar */
+  .link-boxes {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 200px;
+    padding-left: 20px;
+  }
+
+  /* Sidebar Sections */
+  .sidebar-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .section-title {
+    font-weight: 700;
+    color: #fff;
+    padding-left: 5px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+  }
+
+  .sidebar-section .box {
+    margin-left: 10px;
+    width: calc(100% - 10px);
+  }
+
+  /* Main content container (main box + buttons under it) */
+  .main-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  /* Main box */
+  .main-box {
+    flex: 1; 
+    background: radial-gradient(
+      rgba(181, 166, 222, 0.8),
+      rgba(121, 80, 235, 0.8),
+      rgba(75, 50, 143, 0.8)
+    );
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 12px;
+    box-shadow: 5px 5px rgba(27, 11, 71,.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Trirong', cursive;
+    font-size: 24px;
+    color: black;
+    text-align: center;
+    padding: 20px;
+  }
+
+  /* Buttons under main box */
+  .under-main-buttons {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .under-main-buttons .box {
+    flex: 1;
+    max-width: 150px;
+  }
+
+  /* Box styling */
+  .box {
+    background: radial-gradient(
+      rgba(181, 166, 222, 0.8),
+      rgba(121, 80, 235, 0.8),
+      rgba(75, 50, 143, 0.8)
+    );
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    color: black;
+    border-radius: 12px;
+    box-shadow: 5px 5px rgba(27, 11, 71,.5);
+    text-decoration: none;
+    font-weight: 600;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    flex: none;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Trirong', cursive;
+  }
+
+  .box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  }
+
+  @media (max-width: 768px) {
+    .link-boxes {
+      width: 150px;
+    }
+    .box {
+      height: 50px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .content-wrapper {
+      flex-direction: column;
+      margin-top: 0;
+    }
+    .link-boxes {
+      width: 100%;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding-left: 0;
+      margin: 20px 0;
+      gap: 10px;
+    }
+    .main-container {
+      margin: 0 20px;
+    }
+    .main-box {
+      height: 300px; /* fixed height for mobile */
+    }
+    .under-main-buttons {
+      margin-top: 10px;
+      gap: 10px;
+    }
+  }
+</style>
+<link type="text/css" rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+  <div class="topbar">
+    <h1>Lowar.INK</h1>
+    <div class="dropdown-container">
+      <div class="dropdown" tabindex="0">
+        Socials
+        <div class="dropdown-content" role="menu" aria-label="Socials">
+          <a href="https://instagram.com" target="_blank" role="menuitem">Instagram</a>
+          <a href="https://youtube.com" target="_blank" role="menuitem">YouTube</a>
+        </div>
+      </div>
+      <div class="dropdown" tabindex="0">
+        Contact Me
+        <div class="dropdown-content" role="menu" aria-label="Contact">
+          <a href="mailto:your@email.com" role="menuitem">Email</a>
+          <a href="#" role="menuitem">Other</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-wrapper">
+    <!-- Sidebar with sections -->
+    <div class="link-boxes">
+      <!-- Shop Section -->
+      <div class="sidebar-section">
+        <div class="section-title">Shop</div>
+        <a href="#" class="box">Products</a>
+        <a href="#" class="box">Merch</a>
+      </div>
+
+      <!-- Art Section -->
+      <div class="sidebar-section">
+        <div class="section-title">Art</div>
+        <a href="#" class="box">Gallery</a>
+        <a href="#" class="box">Commissions</a>
+      </div>
+
+      <!-- Videos Section -->
+      <div class="sidebar-section">
+        <div class="section-title">Videos</div>
+        <a href="#" class="box">Animations</a>
+        <a href="#" class="box">Tutorials</a>
+      </div>
+    </div>
+
+    <!-- Main content + buttons under main box -->
+    <div class="main-container">
+      <div class="main-box">
+        This box fills the entire remaining space
+      </div>
+
+      <div class="under-main-buttons">
+        <a href="#" class="box">Video animations</a>
+        <a href="#" class="box">Fan art</a>
+        <a href="#" class="box">About me</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tiny corner image -->
+  <img class="corner-image" src="https://github.com/MaeNoSurname/ConsoleImages/blob/main/image.png?raw=true" alt="Decorative Image">
+
+<script type="text/javascript" src="js/script.js"></script>
+</body>
+</html>
